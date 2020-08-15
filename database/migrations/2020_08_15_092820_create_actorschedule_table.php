@@ -15,9 +15,10 @@ class CreateActorscheduleTable extends Migration
     {
         Schema::create('actorschedule', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('weekday');
-            $table->date('available_from');
-            $table->date('available_until');
+            $table->integer('actor_id');
+            $table->integer('weekday');
+            $table->string('available_from');
+            $table->string('available_until');
             $table->timestamps();
         });
     }

@@ -5,15 +5,18 @@
     <div class="float-right mb-4">
         <button class="btn btn-success" type="button" data-toggle="modal" data-target="#createActorModal">Naujas Aktorius +</button>
     </div>
+    <div>
+        <p>Viso aktoriu( <strong class="text-success">{{ $actorsTotal }}</strong> )</p>
+    </div>
     <table class="table table-striped">
-    <th>#</th>
+    <th>Unikalus ID</th>
     <th scope="col">Vardas</th>
     <th scope="col">Pavarde</th>
     <th scope="col">Uzimtumas</th>
     <th scope="col">Veiksmai</th>
         @foreach($actors as $actor)
         <tr>
-            <td>{{ $actor->id }}</td>
+            <td>#{{ $actor->id }}</td>
             <td>
                 {{ $actor->first_name }}
             </td>
@@ -86,103 +89,104 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Aktoriaus uzimtumas</h4>
+                    <h4 class="modal-title" id="myModalLabel">Aktorius <strong>{{ $actor->first_name }} {{ $actor->last_name }}</strong> laisvas:</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <form action="{{route('aktoriai.timeupdate', $actor->id)}}" method="post">
                 @csrf
+                {{ method_field('PUT') }}
                     <div class="modal-body">
-                        <div class="row ml-1">
+                        <div class="row ml-1 mb-4">
                             <label for="pirmadienis">Pirmadienis</label>
                             <div class="col-md-4">
                                 <label for="">Nuo</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-pirmadienis-from" id="timeItem-pirmadienis-from" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-pirmadienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleMondayFrom ? 'selected' : '' }}  >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="">Iki</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-pirmadienis-until" id="timeItem-pirmadienis-until" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-pirmadienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleMondayUntil ? 'selected' : '' }}  >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="row ml-1">
+                        <div class="row ml-1 mb-4">
                             <label for="antradienis">Antradienis</label>
                             <div class="col-md-4">
                                 <label for="">Nuo</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-antradienis-from" id="" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-antradienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleTuesdayFrom ? 'selected' : '' }} >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="">Iki</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-antradienis-until" id="" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-antradienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleTuesdayUntil ? 'selected' : '' }} >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="row ml-1">
+                        <div class="row ml-1 mb-4">
                             <label for="treciadienis">Treciadienis</label>
                             <div class="col-md-4">
                                 <label for="">Nuo</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-treciadienis-from" id="" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-treciadienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleWednesdayFrom ? 'selected' : '' }}  >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="">Iki</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-treciadienis-until" id="" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-treciadienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleWednesdayUntil ? 'selected' : '' }} >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="row ml-1">
+                        <div class="row ml-1 mb-4">
                             <label for="ketvirtadienis">Ketvirtadienis</label>
                             <div class="col-md-4">
                                 <label for="">Nuo</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-ketvirtadienis-from" id="" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-ketvirtadienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleThursdayFrom ? 'selected' : '' }} >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="">Iki</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-ketvirtadienis-until" id="" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-ketvirtadienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleThursdayUntil ? 'selected' : '' }} >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="row ml-1">
+                        <div class="row ml-1 mb-4">
                             <label for="penktadienis">Penktadienis</label>
                             <div class="col-md-4">
                                 <label for="">Nuo</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-penktadienis-from" id="" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-penktadienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleFridayFrom ? 'selected' : '' }} >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="">Iki</label>
-                                <select name="" id="" class="form-control">
+                                <select name="timeItem-penktadienis-until" id="" class="form-control">
                                 @foreach($timeOptionsList as $timeItem)
-                                    <option value="{{ $timeItem }}" name="timeItem-penktadienis">{{ $timeItem }}</option>
+                                    <option value="{{ $timeItem }}" {{ $timeItem == $actor->timeScheduleFridayUntil ? 'selected' : '' }} >{{ $timeItem }}</option>
                                 @endforeach
                                 </select>
                             </div>
