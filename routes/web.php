@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('actors')->group(function() {
+Route::prefix('aktoriai')->group(function() {
     Route::get('/', 'ActorController@index');
+});
+
+Route::prefix('projektai')->group(function() {
+    Route::get('/', 'ProjectController@index');
 });
