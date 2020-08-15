@@ -17,10 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('aktoriai')->group(function() {
-    Route::get('/', 'ActorController@index');
-});
+// Route::prefix('aktoriai')->group(function() {
+//     Route::get('/', 'ActorController@index');
+//     Route::post('/{actorId}/delete', 'ActorController@destroy');
+//     Route::post('/{actorId}/update', 'ActorController@update');
+// });
+Route::resource('aktoriai','ActorController');
+Route::post('aktoriai/{aktoriai}/time/update', 'ActorController@timeUpdate')->name('aktoriai.timeupdate');
 
 Route::prefix('projektai')->group(function() {
     Route::get('/', 'ProjectController@index');
+
 });
