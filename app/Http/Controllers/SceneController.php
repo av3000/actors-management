@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Models\Project;
-use App\Http\Models\Scene;
 use Illuminate\Http\Request;
+use App\Http\Models\Scene;
+
 use Carbon\Carbon;
 
-class ProjectController extends Controller
+class SceneController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projectsResponse = Project::paginate(10);
-        $projects = $projectsResponse->all();
-        // return response()->json($projects);
-        return view('projects.index', ['projectsResponse' => $projectsResponse, 'projects' => $projects]);
+        //
     }
 
     /**
@@ -38,39 +35,50 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
+        // return response()->json([
+        //     'request' => $request->all(),
+        //     'id' => $id
+        // ]);
         $title = $request->input('title');
         $description = $request->input('description');
+        $scene_sequence_number = $request->input('scene_sequence_number');
 
-        $newProject = new Project();
-        $newProject->title = $title;
-        $newProject->description = $description;
-        $newProject->created_at = Carbon::now();
-        $newProject->updated_at = Carbon::now();
-        $newProject->save();
+        $newScene = new Scene();
+        $newScene->title = $title;
+        $newScene->description = $description;
+        $newScene->project_id = $id;
+        $newScene->scene_sequence_number = $scene_sequence_number;
+        $newScene->created_at = Carbon::now();
+        $newScene->updated_at = Carbon::now();
+        $newScene->save();
 
-        return redirect('projektai');
+        return redirect("projektai/".$id."/scenos/".$newScene->id);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Project  $project
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
-    {
-        //
+    public function show($id)
+    {   
+        $scene = Scene::find($id)->first();
+
+        return response()->json([
+            'scene' => $scene
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Project  $project
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit($id)
     {
         //
     }
@@ -79,10 +87,10 @@ class ProjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Project  $project
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -90,10 +98,10 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Project  $project
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($id)
     {
         //
     }

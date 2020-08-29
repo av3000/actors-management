@@ -25,7 +25,9 @@ Route::get('/', function () {
 Route::resource('aktoriai','ActorController');
 Route::put('aktoriai/{aktoriai}/timeupdate', 'ActorController@timeUpdate')->name('aktoriai.timeupdate');
 
+Route::resource('projektai', 'ProjectController');
 Route::prefix('projektai')->group(function() {
     Route::get('/', 'ProjectController@index');
-
 });
+
+Route::resource('projektai.scenos', 'SceneController');
