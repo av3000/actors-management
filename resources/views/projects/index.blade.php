@@ -10,20 +10,22 @@
     <th scope="col">Pavadinimas</th>
     <th scope="col">Scenos</th>
     <th scope="col">Aktoriai</th>
+    <th scope="col">Roles</th>
     <th scope="col" class="float-right">Veiksmai</th>
         @foreach($projects as $project)
         <tr>
             <td>{{ $project->id }}</td>
             <td>
-                {{ $project->title }}
+                <a href="{{route('projektai.show', $project->id)}}">{{ $project->title }}</a>
             </td>
             <td> 
-                <span class="text-success">( 2 )</span>
-                <!-- <span class="text-success">({{ $project->scenosTotal }})</span> -->
-                <button type="button" data-toggle="modal" class="btn btn-primary" data-target="#showScenesModal-{{ $project->id }}">Perziureti</button>
+                <a href="#" data-toggle="modal" class="btn btn-primary" data-target="#showScenesModal-{{ $project->id }}">( <i> <strong> 2 </strong></i> )</a>
             </td>
             <td>
-            <button type="button" data-toggle="modal" class="btn btn-primary" data-target="#showActorsModal-{{ $project->id }}">Perziureti</button>
+                <a href="#" data-toggle="modal" class="btn btn-primary" data-target="#showActorsModal-{{ $project->id }}">( <i> <strong> 5 </strong></i> )</a>
+            </td>
+            <td> 
+                <a href="#" data-toggle="modal" class="btn btn-primary" data-target="#showRolesModal-{{ $project->id }}">( <i> <strong> 4 </strong></i> )</a>
             </td>
             <td class="float-right">
             <button type="button" data-toggle="modal" class="btn btn-primary" data-target="#editProjectModal-{{ $project->id }}">Redaguoti</button>
