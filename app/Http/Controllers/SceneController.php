@@ -63,13 +63,16 @@ class SceneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($projectId, $id)
     {   
-        $scene = Scene::find($id)->first();
-
-        return response()->json([
+        $scene = Scene::where('id', $id)->first();
+        
+        $data = [
             'scene' => $scene
-        ]);
+        ];
+
+        // return view('projektai/'.$projectId.'/scenos/'.$id);
+        return view('scenes.show', compact('data'));
     }
 
     /**
