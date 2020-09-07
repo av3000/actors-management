@@ -59,9 +59,21 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($id)
     {
-        //
+        $project = Project::where('id', $id)->first();
+        $scenes = Scene::where('project_id', $id)->get()->all();
+        // $actors = $project->actors->all();
+
+        $data = [
+            'project' => $project,
+            'scenes' => $scenes,
+            // 'actors' => $actors,
+            'id' => $id
+        ];
+
+        // return view('projektai/'.$projectId.'/scenos/'.$id);
+        return view('projects.show', compact('data'));
     }
 
     /**
