@@ -16,7 +16,7 @@
     <th scope="col">Veiksmai</th>
         @foreach($actors as $actor)
         <tr>
-            <td>#{{ $actor->id }}</td>
+            <td>#{{ $actor->id }} <a href="{{ route('aktoriai.show', $actor->id) }}"> Profilis </a> </td>
             <td>
                 {{ $actor->first_name }}
             </td>

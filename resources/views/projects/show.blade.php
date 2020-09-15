@@ -33,7 +33,7 @@
                 </ul>
             </div>
             <div class="col-md-12 text-center mb-3">
-            <h3>Aktoriai</h3>
+            <h3>Projekte esantys Aktoriai</h3>
             </div>
             <div class="col-md-12">
                 <ul>

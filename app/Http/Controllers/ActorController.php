@@ -102,9 +102,22 @@ class ActorController extends Controller
      * @param  \App\Actor  $actor
      * @return \Illuminate\Http\Response
      */
-    public function show(Actor $actor)
+    public function show($id)
     {
-        //
+        $actor = Actor::where('id', $id)->first();
+        $projects = $actor->projects->all();
+        // $scenes = $actor->scenes->all();
+        // $roles = $actor->roles->all();
+
+        $data = [
+            'actor' => $actor,
+            'projects' => $projects,
+            // 'scenes' => $scenes,
+            // 'roles' => $roles,
+            'id' => $id
+        ];
+
+        return view('actors.show', compact('data'));
     }
 
     /**

@@ -22,7 +22,7 @@ Route::get('/', function () {
 //     Route::post('/{actorId}/delete', 'ActorController@destroy');
 //     Route::post('/{actorId}/update', 'ActorController@update');
 // });
-Route::resource('aktoriai','ActorController');
+Route::resource('aktoriai', 'ActorController');
 Route::put('aktoriai/{aktoriai}/timeupdate', 'ActorController@timeUpdate')->name('aktoriai.timeupdate');
 
 Route::resource('projektai', 'ProjectController');
