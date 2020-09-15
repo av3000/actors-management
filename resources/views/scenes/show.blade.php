@@ -3,6 +3,9 @@
 <div class="container">
     <div class="main">
         <div class="row">
+            <div class="col-md-12">
+                Atgal i <a href="{{ route('projektai.show', $data['project']->id) }}">{{ $data['project']->title }}</a>
+            </div>
             <div class="col-md-10">
                 <h3 class="display-2 pb-3 mb-4 font-italic border-bottom">
                     <strong>{{ $data['scene']->title}}</strong>

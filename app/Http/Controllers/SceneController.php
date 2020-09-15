@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Models\Project;
 use App\Http\Models\Scene;
 
 use Carbon\Carbon;
@@ -67,7 +68,10 @@ class SceneController extends Controller
     {   
         $scene = Scene::where('id', $id)->first();
         
+        $project = Project::where('id', $projectId)->first();
+
         $data = [
+            'project' => $project,
             'scene' => $scene
         ];
 
