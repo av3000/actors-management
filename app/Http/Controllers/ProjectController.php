@@ -63,16 +63,15 @@ class ProjectController extends Controller
     {
         $project = Project::where('id', $id)->first();
         $scenes = Scene::where('project_id', $id)->get()->all();
-        // $actors = $project->actors->all();
+        $actors = $project->actors->all();
 
         $data = [
+            'actors' => $actors,
             'project' => $project,
             'scenes' => $scenes,
-            // 'actors' => $actors,
             'id' => $id
         ];
 
-        // return view('projektai/'.$projectId.'/scenos/'.$id);
         return view('projects.show', compact('data'));
     }
 

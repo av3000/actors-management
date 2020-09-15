@@ -37,8 +37,9 @@
             </div>
             <div class="col-md-12">
                 <ul>
-                   <li>Actor 1</li>
-                   <li>Actor 2</li>
+                    @foreach($data['actors'] as $actor)
+                    <li> <a href="{{ route('aktoriai.show', $actor->id )}}">{{ $actor->first_name }} {{ $actor->last_name }}</a> </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
