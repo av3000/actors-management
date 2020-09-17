@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Models\Actor;
+use App\Http\Models\Role;
+use App\Http\Models\Project;
 use App\Http\Models\ActorSchedule;
 use DB;
 
@@ -105,15 +107,21 @@ class ActorController extends Controller
     public function show($id)
     {
         $actor = Actor::where('id', $id)->first();
-        $projects = $actor->projects->all();
-        // $scenes = $actor->scenes->all();
-        // $roles = $actor->roles->all();
+        $actorProjects = $actor->projects()->get()->all();
+
+        $allProjects = Project::get()->all();
+
+        $potentialProjects = array_udiff($allProjects, $actorProjects, function ($obj_a, $obj_b) {
+            return $obj_a->id - $obj_b->id;
+        });
+
+        $roles = $actor->roles()->get()->all();
 
         $data = [
             'actor' => $actor,
-            'projects' => $projects,
-            // 'scenes' => $scenes,
-            // 'roles' => $roles,
+            'actorProjects' => $actorProjects,
+            'potentialProjects' => $potentialProjects,
+            'roles' => $roles,
             'id' => $id
         ];
 

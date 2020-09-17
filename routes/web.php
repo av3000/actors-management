@@ -28,6 +28,8 @@ Route::put('aktoriai/{aktoriai}/timeupdate', 'ActorController@timeUpdate')->name
 Route::resource('projektai', 'ProjectController');
 Route::prefix('projektai')->group(function() {
     Route::get('/', 'ProjectController@index');
+    Route::post('/addActorToProject', 'ProjectController@addActorToProject')->name('projektai.add-actor-to-project');
 });
 
 Route::resource('projektai.scenos', 'SceneController');
+Route::resource('projektai.roles', 'RoleController');

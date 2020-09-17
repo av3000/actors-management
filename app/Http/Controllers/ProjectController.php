@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Models\Project;
 use App\Http\Models\Scene;
+use App\Http\Models\Actor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -107,5 +108,24 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    /**
+     * Add Actor to the project
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addActorToProject(Request $request)
+    {
+        $actorId = $request->get('actor_id');
+        $projectId = $request->get('project_id');
+
+        $actor = Actor::find($actorId);
+
+        $project = Project::find($projectId);
+        $project->actors()->attach($actor);
+
+        return redirect("aktoriai/".$actorId);
     }
 }
