@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Models\Project;
 use App\Http\Models\Scene;
+use App\Http\Models\Role;
 use App\Http\Models\Actor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -64,12 +65,14 @@ class ProjectController extends Controller
     {
         $project = Project::where('id', $id)->first();
         $scenes = Scene::where('project_id', $id)->get()->all();
+        $roles = Role::where('project_id', $id)->get()->all();
         $actors = $project->actors->all();
 
         $data = [
             'actors' => $actors,
             'project' => $project,
             'scenes' => $scenes,
+            'roles' => $roles,
             'id' => $id
         ];
 

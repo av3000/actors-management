@@ -12,11 +12,15 @@
                 <h3>Roles</h3>
             </div>
             <div class="col-md-12">
+                @if( count($data['roles']) > 0 )
                 <ul>
                     @foreach($data['roles'] as $role)
                     <li> <a href="{{ route('projektai.roles.show', ['projektai' => $role->project_id, 'role' => $role->id ] )}}">{{ $role->name }}</a> </li>
                     @endforeach
                 </ul>
+                @else
+                    <p>Aktorius neturi roliu...</p>
+                @endif
             </div>
             <div class="col-md-12 text-center mb-3">
             <h3>Projektai</h3>
@@ -25,11 +29,15 @@
             </div>
             </div>
             <div class="col-md-12">
+                @if( count($data['actorProjects']) > 0 )
                 <ul>
                     @foreach($data['actorProjects'] as $project)
                     <li> <a href="{{ route('projektai.show', $project->id )}}">{{ $project->title }}</a> </li>
                     @endforeach
                 </ul>
+                @else
+                    <p>Aktorius neturi projektu...</p>
+                @endif
             </div>
         </div>
     </div>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Models\Role;
+use App\Http\Models\Project;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class RoleController extends Controller
 {
@@ -32,9 +35,17 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $newRole = new Role();
+        $newRole->name = $request->get('name');
+        $newRole->description = $request->get('description');
+        $newRole->project_id = $id;
+        $newRole->created_at = Carbon::now();
+        $newRole->updated_at = Carbon::now();
+        $newRole->save();
+
+        return redirect('projektai/'.$id);
     }
 
     /**
