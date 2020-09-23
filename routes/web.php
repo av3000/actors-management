@@ -29,6 +29,7 @@ Route::resource('projektai', 'ProjectController');
 Route::prefix('projektai')->group(function() {
     Route::get('/', 'ProjectController@index');
     Route::post('/addActorToProject', 'ProjectController@addActorToProject')->name('projektai.add-actor-to-project');
+    Route::post('/addRoleToActor', 'ProjectController@addRoleToActor')->name('projektai.add-role-to-actor');
 });
 
 Route::resource('projektai.scenos', 'SceneController');

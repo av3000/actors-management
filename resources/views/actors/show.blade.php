@@ -51,7 +51,6 @@
         </div>
         <form action="{{route('projektai.add-actor-to-project',
              [
-              'project_id' => $data['actor']->project_id,
               'actor_id' => $data['actor']->id
              ])}}"
             method="post"

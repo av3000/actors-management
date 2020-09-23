@@ -77,9 +77,15 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $role)
     {
-        //
+        $updatedRole = Role::find($role)->first();
+        $updatedRole->name = $request->get('name');
+        $updatedRole->description = $request->get('description');
+        $updatedRole->updated_at = Carbon::now();
+        $updatedRole->save();
+
+        return redirect('projektai/'.$id);
     }
 
     /**

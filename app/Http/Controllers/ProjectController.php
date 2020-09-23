@@ -68,6 +68,12 @@ class ProjectController extends Controller
         $roles = Role::where('project_id', $id)->get()->all();
         $actors = $project->actors->all();
 
+        foreach($actors as $actor)
+        {
+            $actor->assignedRoles = $actor->roles()->get()->all();
+            $actor->rolesCount = count($actor->assignedRoles);
+        }
+
         $data = [
             'actors' => $actors,
             'project' => $project,
@@ -130,5 +136,25 @@ class ProjectController extends Controller
         $project->actors()->attach($actor);
 
         return redirect("aktoriai/".$actorId);
+    }
+
+    public function addRoleToActor(Request $request)
+    {
+        $actorId = $request->get('actorId');
+        $projectId = $request->get('projectId');
+        $roleId = $request->get('potentialRoles');
+
+        $actor = Actor::find($actorId);
+        $role = Role::find($roleId);
+        $actor->roles()->attach($role);
+
+        return redirect("projektai/".$projectId);
+
+        return response()->json([
+            'request' => $request->all(),
+            'projectId' => $projectId,
+            'actorId' => $actorId,
+            'roleId' => $roleId
+        ]);
     }
 }
