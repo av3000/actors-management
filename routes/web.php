@@ -30,6 +30,7 @@ Route::prefix('projektai')->group(function() {
     Route::get('/', 'ProjectController@index');
     Route::post('/addActorToProject', 'ProjectController@addActorToProject')->name('projektai.add-actor-to-project');
     Route::post('/addRoleToActor', 'ProjectController@addRoleToActor')->name('projektai.add-role-to-actor');
+    Route::post('/detachRoleFromActor', 'ProjectController@detachRoleFromActor')->name('projektai.detach-role-from-actor');
 });
 
 Route::resource('projektai.scenos', 'SceneController');

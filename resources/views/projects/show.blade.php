@@ -76,7 +76,7 @@
                     <li> 
                     <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editActorModal-{{$actor->id}}">{{ $actor->first_name }} {{ $actor->last_name }}</button>
                     <!-- <a href="{{ route('aktoriai.show', $actor->id )}}">{{ $actor->first_name }} {{ $actor->last_name }}</a>  -->
-                    <div class="modal fade" id="editActorModal-{{$actor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" id="editActorModal-{{$actor->id}}" tabindex="-2" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -84,40 +84,81 @@
                                 <a href="{{ route('aktoriai.show', $actor->id ) }}">{{ $actor->first_name }} {{ $actor->last_name }}</a> Roliu valdymas</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
-                            <form 
-                                action="{{ route('projektai.add-role-to-actor', [ 'projectId' => $data['id'], 'actorId' => $actor->id ])}}"
-                                method="post"
-                            >
-                            @csrf
-                            
                                 <div class="modal-body">
                                     <div class="form-group">
+                                    <form 
+                                        action="{{ route('projektai.add-role-to-actor', [ 'projectId' => $data['id'], 'actorId' => $actor->id ])}}"
+                                        method="post"
+                                    >
+                                    @csrf
                                         @if($actor->rolesCount > 0)
-                                            <label for="pavadinimas">Esamos roles</label>
-                                            <ul>
+                                            <label for="pavadinimas"> <u>Esamos roles:</u> </label>
                                             @foreach($actor->assignedRoles as $singleRole)
-                                                <li> {{ $singleRole->name }} </li>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        {{ $singleRole->name }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="btn-group float-right">
+                                                            <button type="button" data-toggle="modal" class="btn btn-danger" data-target="#detachModal-{{ $singleRole->id }}">Atkabinti</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal fade" id="detachModal-{{ $singleRole->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 style="text-align: center;" class="modal-title" id="myModalLabel2">
+                                                                    Roles atkabinimas
+                                                                </h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <strong>Ar tikrai norite Atkabinti role <i>{{$singleRole->name}}</i> nuo aktoriaus <i>{{$actor->first_name}} {{$actor->last_name}}</i> ? </strong></br>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            <form  method="POST" id="detachModal-{{ $singleRole->id }}" action="{{route('projektai.detach-role-from-actor', ['roleId' => $singleRole->id, 'actorId' => $actor->id, 'projectId' => $data['id']])}}">
+                                                                @csrf
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Atsaukti</button>
+                                                                <button type="submit" class="btn btn-danger">Taip, Atkabinti</button>
+                                                            </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endforeach
-                                            </ul>
                                         @else
                                             <p>Aktorius roliu dar neturi...</p>
                                         @endif
+                                    </form>
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Galimos roles</label>
+                                    @if(count($actor->potentialRoles) > 0)
+                                    <form 
+                                        action="{{ route('projektai.add-role-to-actor', [ 'projectId' => $data['id'], 'actorId' => $actor->id ])}}"
+                                        method="post"
+                                    >
+                                    @csrf
+                                        <label for=""> <u>Galimos roles:</u> </label>
                                         <select name="potentialRoles" id="potentialRoles" class="form-control">
-                                        @foreach($data['roles'] as $singleRole)
+                                        @foreach($actor->potentialRoles as $singleRole)
                                             <option value="{{ $singleRole->id }}">{{ $singleRole->name }}</option>
                                         @endforeach
                                         </select>
-
+                                        <button type="submit" class="btn btn-primary">Priskirti</button>
+                                    </form>
+                                    @else
+                                        Nebera aktoriui galimu roliu...
+                                        <br/>
+                                        <small>
+                                            P.S.Galima sukurti reikalavimus rolei pvz: lytis, ir aktoriui vyrui nerodytu moteru roliu ar pan.
+                                        </small>
+                                    @endif
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Uzdaryti</button>
-                                    <button type="submit" class="btn btn-primary">Atnaujinti</button>
                                 </div>
-                            </form>
                             </div>
                         </div>
                     </div>

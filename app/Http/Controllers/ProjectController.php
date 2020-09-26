@@ -68,11 +68,18 @@ class ProjectController extends Controller
         $roles = Role::where('project_id', $id)->get()->all();
         $actors = $project->actors->all();
 
+        $dummyArray = array();
         foreach($actors as $actor)
         {
             $actor->assignedRoles = $actor->roles()->get()->all();
+            $actor->potentialRoles = array_udiff($roles, $actor->assignedRoles, function ($obj_a, $obj_b) {
+                return $obj_a->id - $obj_b->id;
+            });
+            array_push($dummyArray, array('actor' => $actor->first_name . " ". $actor->last_name, 'actorPotentialRoles' => $actor->potentialRoles, 'actorAssignedRoles' => $actor->assignedRoles));
             $actor->rolesCount = count($actor->assignedRoles);
         }
+
+        // return response()->json(['dummyArray' => $dummyArray]);
 
         $data = [
             'actors' => $actors,
@@ -149,12 +156,24 @@ class ProjectController extends Controller
         $actor->roles()->attach($role);
 
         return redirect("projektai/".$projectId);
+    }
+
+    public function detachRoleFromActor(Request $request)
+    {
+        $actorId = $request->get('actorId');
+        $projectId = $request->get('projectId');
+        $roleId = $request->get('roleId');
 
         return response()->json([
-            'request' => $request->all(),
-            'projectId' => $projectId,
             'actorId' => $actorId,
+            'projectId' => $projectId,
             'roleId' => $roleId
         ]);
+
+        $actor = Actor::find($actorId);
+        $role = Role::find($roleId);
+        $actor->roles()->detach($role);
+
+        return redirect("projektai/".$projectId);
     }
 }
